@@ -2,11 +2,11 @@ import { h } from "preact";
 
 const Instructions = (props) => {
   return (
-    <div className="smile-container">
+    <div className="instruction-container">
       <img
         src="/icons/si_smart_selfie_instructions_hero.svg"
         alt="Smile Identity Logo"
-        className="smile-logo"
+        className="instruction-hero"
       />
       <h2>Next, we'll take a quick selfie</h2>
       <p>

@@ -1,0 +1,90 @@
+.centered-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.videoView {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.videoView canvas,
+.videoView video {
+  -moz-transform: scaleX(-1) scale(1.25);
+  -ms-transform: scaleX(-1) scale(1.25);
+  -o-transform: scaleX(-1) scale(1.25);
+  -webkit-transform: scaleX(-1) scale(1.25);
+  transform: scaleX(-1) scale(1.25); /* Mirror and Magnify */
+
+  height: auto;
+  left: -20%; /* Move the video to the left by 20% of its width */
+  position: absolute;
+  top: -20%; /* Move the video to the top by 20% of its height */
+  width: 100%;
+  object-fit: cover;
+}
+
+.agent-mode {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.agent-mode label {
+  font-size: 16px;
+}
+
+.camera-frame {
+  position: relative;
+  overflow: hidden; /* Crop the video */
+  width: 640px;
+  height: 480px;
+}
+
+.camera-frame video,
+.camera-frame canvas,
+.camera-frame img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.camera-container {
+  max-width: 500px; /* Adjust to your preference */
+  margin: 0 auto;
+  position: relative;
+  height: 100vh;
+  background-color: #eee;
+}
+
+/* UNUSED */
+
+.overlay-left,
+.overlay-right {
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+
+.overlay-left {
+  left: 0;
+  width: 20%; /* 100% - 60% = 40% / 2 = 20% */
+}
+
+.overlay-right {
+  right: 0;
+  width: 20%;
+}
