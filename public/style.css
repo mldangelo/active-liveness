@@ -28,6 +28,13 @@ header {
   align-items: center;
 }
 
+.videoView video {
+  transform: scale(1.25); /* Magnify the video by 25% */
+  position: absolute;
+  left: -20%; /* Move the video to the left by 20% of its width */
+  top: -20%; /* Move the video to the top by 20% of its height */
+}
+
 .mdc-button {
   background-color: #007bff;
   color: white;
@@ -105,12 +112,13 @@ body {
 
 .camera-frame {
   position: relative;
+  overflow: hidden; /* Crop the video */
   width: 640px;
-  height: 480px;  
+  height: 480px;
 }
 
-.camera-frame video, 
-.camera-frame canvas, 
+.camera-frame video,
+.camera-frame canvas,
 .camera-frame img {
   position: absolute;
   top: 0;
