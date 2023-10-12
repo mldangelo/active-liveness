@@ -40,6 +40,25 @@ header {
   position: absolute;
   top: -20%; /* Move the video to the top by 20% of its height */
   width: 100%;
+  object-fit: cover;
+}
+
+.overlay-left,
+.overlay-right {
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+
+.overlay-left {
+  left: 0;
+  width: 20%; /* 100% - 60% = 40% / 2 = 20% */
+}
+
+.overlay-right {
+  right: 0;
+  width: 20%;
 }
 
 .mdc-button {

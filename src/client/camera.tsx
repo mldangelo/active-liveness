@@ -4,11 +4,6 @@ import * as vision from "@mediapipe/tasks-vision";
 const { FaceLandmarker, FilesetResolver, DrawingUtils } = vision;
 import { hasGetUserMedia } from "./utils";
 
-let faceLandmarker: any;
-let runningMode: "IMAGE" | "VIDEO" = "IMAGE";
-let enableWebcamButton: HTMLButtonElement;
-let webcamRunning: Boolean = false;
-const videoWidth = 480;
 let lastVideoTime = -1;
 let results: any = undefined;
 // const drawingUtils = new DrawingUtils(canvasCtx as CanvasRenderingContext2D);
@@ -20,7 +15,7 @@ async function createFaceLandmarker() {
   const filesetResolver = await FilesetResolver.forVisionTasks(
     "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm",
   );
-  faceLandmarker = await FaceLandmarker.createFromOptions(filesetResolver, {
+  return FaceLandmarker.createFromOptions(filesetResolver, {
     baseOptions: {
       modelAssetPath: `https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task`,
       delegate: "GPU",
@@ -31,38 +26,6 @@ async function createFaceLandmarker() {
   });
 }
 
-async function checkAvailableCameras() {
-  try {
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    const videoDevices = devices.filter(
-      (device) => device.kind === "videoinput",
-    );
-
-    let hasFrontCamera = false;
-    let hasBackCamera = false;
-
-    for (const device of videoDevices) {
-      if (
-        device.label.toLowerCase().includes("front") ||
-        device.label.toLowerCase().includes("user")
-      ) {
-        hasFrontCamera = true;
-      }
-      if (
-        device.label.toLowerCase().includes("back") ||
-        device.label.toLowerCase().includes("environment")
-      ) {
-        hasBackCamera = true;
-      }
-    }
-
-    return { hasFrontCamera, hasBackCamera };
-  } catch (error) {
-    console.error("Error accessing media devices:", error);
-    return { hasFrontCamera: false, hasBackCamera: false };
-  }
-}
-
 const CameraApp = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -70,9 +33,12 @@ const CameraApp = () => {
   const [webcamRunning, setWebcamRunning] = useState(false);
   const [blendShapes, setBlendShapes] = useState([]);
 
+  const [faceLandmarker, setFaceLandmarker] = useState<any>();
+
   useEffect(() => {
     async function setupCamera() {
-      await createFaceLandmarker();
+      let faceLandmarkerInstance = await createFaceLandmarker();
+      setFaceLandmarker(faceLandmarkerInstance);
 
       if (hasGetUserMedia()) {
         enableCam(); // Enable camera on component mount.
@@ -121,6 +87,8 @@ const CameraApp = () => {
       <section id="webcam-section" className="centered-section">
         <div id="liveView" className="videoView">
           <div className="camera-frame">
+            <div className="overlay-left"></div>
+            <div className="overlay-right"></div>
             <video
               ref={videoRef}
               autoPlay
