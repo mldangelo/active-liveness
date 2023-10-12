@@ -1,21 +1,5 @@
-// Copyright 2023 The MediaPipe Authors.
-
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-
-//      http://www.apache.org/licenses/LICENSE-2.0
-
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 import * as vision from "@mediapipe/tasks-vision";
 const { FaceLandmarker, FilesetResolver, DrawingUtils } = vision;
-const demosSection = document.getElementById("demos");
-const imageBlendShapes = document.getElementById("image-blend-shapes");
 const videoBlendShapes = document.getElementById("video-blend-shapes");
 
 let faceLandmarker: any;
@@ -40,115 +24,8 @@ async function createFaceLandmarker() {
     runningMode,
     numFaces: 1,
   });
-  demosSection?.classList.remove("invisible");
 }
 createFaceLandmarker();
-
-/********************************************************************
-// Demo 1: Grab a bunch of images from the page and detection them
-// upon click.
-********************************************************************/
-
-// In this demo, we have put all our clickable images in divs with the
-// CSS class 'detectionOnClick'. Lets get all the elements that have
-// this class.
-const imageContainers = document.getElementsByClassName("detectOnClick");
-
-// Convert the HTMLCollection to an array and then iterate over it
-for (let imageContainer of Array.from(imageContainers)) {
-  // Add event listener to the child element which is the img element.
-  imageContainer.children[0].addEventListener("click", handleClick);
-}
-
-// When an image is clicked, let's detect it and display results!
-async function handleClick(event) {
-  if (!faceLandmarker) {
-    console.log("Wait for faceLandmarker to load before clicking!");
-    return;
-  }
-
-  if (runningMode === "VIDEO") {
-    runningMode = "IMAGE";
-    await faceLandmarker.setOptions({ runningMode });
-  }
-  // Remove all landmarks drawn before
-  const allCanvas = event.target.parentNode.getElementsByClassName("canvas");
-  for (var i = allCanvas.length - 1; i >= 0; i--) {
-    const n = allCanvas[i];
-    n.parentNode.removeChild(n);
-  }
-
-  // We can call faceLandmarker.detect as many times as we like with
-  // different image data each time. This returns a promise
-  // which we wait to complete and then call a function to
-  // print out the results of the prediction.
-  const faceLandmarkerResult = faceLandmarker.detect(event.target);
-  const canvas = document.createElement("canvas") as HTMLCanvasElement;
-  canvas.setAttribute("class", "canvas");
-  canvas.setAttribute("width", event.target.naturalWidth + "px");
-  canvas.setAttribute("height", event.target.naturalHeight + "px");
-  canvas.style.left = "0px";
-  canvas.style.top = "0px";
-  canvas.style.width = `${event.target.width}px`;
-  canvas.style.height = `${event.target.height}px`;
-
-  event.target.parentNode.appendChild(canvas);
-  const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
-  const drawingUtils = new DrawingUtils(ctx);
-  for (const landmarks of faceLandmarkerResult.faceLandmarks) {
-    drawingUtils.drawConnectors(
-      landmarks,
-      FaceLandmarker.FACE_LANDMARKS_TESSELATION,
-      { color: "#C0C0C070", lineWidth: 1 },
-    );
-    drawingUtils.drawConnectors(
-      landmarks,
-      FaceLandmarker.FACE_LANDMARKS_RIGHT_EYE,
-      { color: "#FF3030" },
-    );
-    drawingUtils.drawConnectors(
-      landmarks,
-      FaceLandmarker.FACE_LANDMARKS_RIGHT_EYEBROW,
-      { color: "#FF3030" },
-    );
-    drawingUtils.drawConnectors(
-      landmarks,
-      FaceLandmarker.FACE_LANDMARKS_LEFT_EYE,
-      { color: "#30FF30" },
-    );
-    drawingUtils.drawConnectors(
-      landmarks,
-      FaceLandmarker.FACE_LANDMARKS_LEFT_EYEBROW,
-      { color: "#30FF30" },
-    );
-    drawingUtils.drawConnectors(
-      landmarks,
-      FaceLandmarker.FACE_LANDMARKS_FACE_OVAL,
-      { color: "#E0E0E0" },
-    );
-    drawingUtils.drawConnectors(landmarks, FaceLandmarker.FACE_LANDMARKS_LIPS, {
-      color: "#E0E0E0",
-    });
-    drawingUtils.drawConnectors(
-      landmarks,
-      FaceLandmarker.FACE_LANDMARKS_RIGHT_IRIS,
-      { color: "#FF3030" },
-    );
-    drawingUtils.drawConnectors(
-      landmarks,
-      FaceLandmarker.FACE_LANDMARKS_LEFT_IRIS,
-      { color: "#30FF30" },
-    );
-  }
-  drawBlendShapes(
-    imageBlendShapes as HTMLElement,
-    faceLandmarkerResult.faceBlendshapes,
-  );
-}
-
-/********************************************************************
-// Demo 2: Continuously grab image from webcam stream and detect it.
-********************************************************************/
 
 const video = document.getElementById("webcam") as HTMLVideoElement;
 const canvasElement = document.getElementById(
