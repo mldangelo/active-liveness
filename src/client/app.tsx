@@ -38,7 +38,6 @@ const video = document.getElementById("webcam") as HTMLVideoElement;
 const canvasElement = document.getElementById(
   "output_canvas",
 ) as HTMLCanvasElement;
-
 const canvasCtx = canvasElement.getContext("2d");
 
 // If webcam supported, add event listener to button for when user

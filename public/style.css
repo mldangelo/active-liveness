@@ -28,6 +28,7 @@ header {
   align-items: center;
 }
 
+.videoView canvas,
 .videoView video {
   -moz-transform: scaleX(-1) scale(1.25);
   -ms-transform: scaleX(-1) scale(1.25);
