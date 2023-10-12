@@ -3,53 +3,26 @@ import { useState, useEffect } from "preact/hooks";
 import Instructions from "./instructions";
 // import CameraApp from "./camera";
 
-import { hasGetUserMedia } from "./utils";
+import {
+  hasGetUserMedia,
+  faceLandmarker,
+  getRunningMode,
+  setRunningMode,
+} from "./utils";
 import HelpMessage from "./help";
 import * as vision from "@mediapipe/tasks-vision";
 const { FaceLandmarker, FilesetResolver, DrawingUtils } = vision;
 const videoBlendShapes = document.getElementById("video-blend-shapes");
 
-let faceLandmarker: any;
-let runningMode: "IMAGE" | "VIDEO" = "IMAGE";
 let enableWebcamButton: HTMLButtonElement;
 let webcamRunning: Boolean = false;
 const videoWidth = 480;
-
-// Before we can use HandLandmarker class we must wait for it to finish
-// loading. Machine Learning models can be large and take a moment to
-// get everything needed to run.
-async function createFaceLandmarker() {
-  const filesetResolver = await FilesetResolver.forVisionTasks(
-    "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm",
-  );
-  faceLandmarker = await FaceLandmarker.createFromOptions(filesetResolver, {
-    baseOptions: {
-      modelAssetPath: `https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task`,
-      delegate: "GPU",
-    },
-    outputFaceBlendshapes: true,
-    runningMode,
-    numFaces: 1,
-  });
-}
-createFaceLandmarker();
 
 const video = document.getElementById("webcam") as HTMLVideoElement;
 const canvasElement = document.getElementById(
   "output_canvas",
 ) as HTMLCanvasElement;
 const canvasCtx = canvasElement.getContext("2d");
-
-// If webcam supported, add event listener to button for when user
-// wants to activate it.
-if (hasGetUserMedia()) {
-  enableWebcamButton = document.getElementById(
-    "webcamButton",
-  ) as HTMLButtonElement;
-  enableWebcamButton.addEventListener("click", enableCam);
-} else {
-  console.warn("getUserMedia() is not supported by your browser");
-}
 
 // Enable the live webcam view and start detection.
 function enableCam(event) {
@@ -78,6 +51,16 @@ function enableCam(event) {
   });
 }
 
+// If webcam supported, add event listener to button for when user
+// wants to activate it.
+if (hasGetUserMedia()) {
+  enableWebcamButton = document.getElementById(
+    "webcamButton",
+  ) as HTMLButtonElement;
+  enableWebcamButton.addEventListener("click", enableCam);
+} else {
+  console.warn("getUserMedia() is not supported by your browser");
+}
 let lastVideoTime = -1;
 let results: any = undefined;
 const drawingUtils = new DrawingUtils(canvasCtx as CanvasRenderingContext2D);
@@ -90,9 +73,8 @@ async function predictWebcam() {
   canvasElement.width = video.videoWidth;
   canvasElement.height = video.videoHeight;
   // Now let's start detecting the stream.
-  if (runningMode === "IMAGE") {
-    runningMode = "VIDEO";
-    await faceLandmarker.setOptions({ runningMode: runningMode });
+  if (getRunningMode() === "IMAGE") {
+    await setRunningMode("VIDEO");
   }
   let startTimeMs = performance.now();
   if (lastVideoTime !== video.currentTime) {
