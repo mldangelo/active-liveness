@@ -1,9 +1,21 @@
 const path = require('path');
 
 module.exports = {
-  entry: './public/script.js',
+  entry: './src/client/script.ts',
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
+      }
+    ]
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js']
+  },
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    filename: 'script.js',
+    path: path.resolve(__dirname, 'public')  // output the bundle to the public directory
   }
 };
