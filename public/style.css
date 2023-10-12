@@ -20,6 +20,7 @@ header {
   justify-content: center;
   min-height: 70vh;
   padding: 20px;
+  overflow: hidden;
 }
 
 .videoView {
