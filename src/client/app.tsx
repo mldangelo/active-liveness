@@ -14,8 +14,6 @@ import * as vision from "@mediapipe/tasks-vision";
 const { FaceLandmarker, FilesetResolver, DrawingUtils } = vision;
 const videoBlendShapes = document.getElementById("video-blend-shapes");
 
-let enableWebcamButton: HTMLButtonElement;
-let webcamRunning: Boolean = false;
 const videoWidth = 480;
 
 const video = document.getElementById("webcam") as HTMLVideoElement;
@@ -24,43 +22,31 @@ const canvasElement = document.getElementById(
 ) as HTMLCanvasElement;
 const canvasCtx = canvasElement.getContext("2d");
 
+let webcamRunning: Boolean = false;
 // Enable the live webcam view and start detection.
-function enableCam(event) {
+function enableCam(event, cb?: Function) {
   if (!faceLandmarker) {
     console.log("Wait! faceLandmarker not loaded yet.");
     return;
   }
-
-  if (webcamRunning === true) {
-    webcamRunning = false;
-    enableWebcamButton.innerText = "I'm Ready";
-  } else {
-    webcamRunning = true;
-    enableWebcamButton.innerText = "DISABLE PREDICTIONS";
-  }
-
-  // getUsermedia parameters.
-  const constraints = {
-    video: true,
-  };
-
+  webcamRunning = true;
   // Activate the webcam stream.
-  navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-    video.srcObject = stream;
-    video.addEventListener("loadeddata", predictWebcam);
-  });
+  navigator.mediaDevices
+    .getUserMedia({
+      video: true,
+    })
+    .then((stream) => {
+      video.srcObject = stream;
+      video.addEventListener("loadeddata", predictWebcam);
+      document
+        .getElementsByClassName("camera-container")[0]
+        .removeAttribute("style");
+      if (cb) {
+        cb();
+      }
+    });
 }
 
-// If webcam supported, add event listener to button for when user
-// wants to activate it.
-if (hasGetUserMedia()) {
-  enableWebcamButton = document.getElementById(
-    "webcamButton",
-  ) as HTMLButtonElement;
-  enableWebcamButton.addEventListener("click", enableCam);
-} else {
-  console.warn("getUserMedia() is not supported by your browser");
-}
 let lastVideoTime = -1;
 let results: any = undefined;
 const drawingUtils = new DrawingUtils(canvasCtx as CanvasRenderingContext2D);
@@ -175,7 +161,9 @@ const App = () => {
 
   return (
     <Fragment>
-      {!capture ? <Instructions onClick={() => startCapture(true)} /> : null}
+      {!capture ? (
+        <Instructions onClick={(e) => enableCam(e, () => startCapture(true))} />
+      ) : null}
       {/* capture ? <CameraApp /> : null */}
       {helpMessage && (
         <HelpMessage message="Please center your face in the frame" />
