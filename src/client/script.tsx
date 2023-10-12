@@ -1,3 +1,5 @@
+import { render, h } from "preact";
+import { useState } from "preact/hooks";
 import * as vision from "@mediapipe/tasks-vision";
 const { FaceLandmarker, FilesetResolver, DrawingUtils } = vision;
 const videoBlendShapes = document.getElementById("video-blend-shapes");
@@ -178,3 +180,96 @@ function drawBlendShapes(el: HTMLElement, blendShapes: any[]) {
 
   el.innerHTML = htmlMaker;
 }
+
+const Instructions = (props) => {
+  return (
+    <div className="smile-container">
+      <img
+        src="/icons/logo.svg"
+        alt="Smile Identity Logo"
+        className="smile-logo"
+      />
+      <h2>Next, we'll take a quick selfie</h2>
+      <p>
+        We'll use it to verify your Identity. Please follow the instructions
+        below.
+      </p>
+
+      <div className="smile-instructions">
+        <div className="instruction">
+          <img src="icons/good_light_icon.svg" alt="Good Light" />
+          <p>
+            Make sure you are in a well-lit environment where your face is clear
+            and visible.
+          </p>
+        </div>
+        <div className="instruction">
+          <img src="icons/clear_image_icon.svg" alt="Clear Image" />
+          <p>
+            Hold your phone steady so the selfie is clear and sharp. Don’t take
+            blurry images.
+          </p>
+        </div>
+        <div className="instruction">
+          <img
+            src="icons/remove_obstructions_icon.svg"
+            alt="Remove Obstructions"
+          />
+          <p>
+            Remove anything that covers your face, such glasses, masks, hats,
+            and scarves.
+          </p>
+        </div>
+      </div>
+      <button className="smile-button" onClick={props.onClick}>
+        I'm Ready
+      </button>
+      <div className="powered-by">
+        <p>
+          Powered by{" "}
+          <span>
+            <a href="https://usesmileid.com/">SmileID</a>
+          </span>
+        </p>
+      </div>
+    </div>
+  );
+};
+
+const CameraContainer = () => {
+  return (
+    <div className="camera-container">
+      <section id="webcam-section" className="centered-section">
+        <div id="liveView" className="videoView">
+          <div className="camera-frame">
+            <video id="webcam" autoplay playsinline></video>
+            <canvas className="output_canvas" id="output_canvas"></canvas>
+            <img
+              src="icons/face_outline_icon.svg"
+              alt="Face Outline"
+              className="face-outline"
+            />
+          </div>
+        </div>
+        <div className="blend-shapes">
+          <ul className="blend-shapes-list" id="video-blend-shapes"></ul>
+        </div>
+      </section>
+      <p className="position-text" id="helpMessage" style={{ display: "none" }}>
+        Position face within the outline
+      </p>
+    </div>
+  );
+};
+
+const App = () => {
+  const [capture, startCapture] = useState(false);
+  return (
+    <div>
+      {!capture ? <Instructions onClick={() => startCapture(true)} /> : null}
+      {capture ? <CameraContainer /> : null}
+    </div>
+  );
+};
+
+render(<App />, document.body);

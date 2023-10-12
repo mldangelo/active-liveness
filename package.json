@@ -17,7 +17,9 @@
     "preact": "^10.18.1",
     "ts-loader": "^9.5.0",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "react": "npm:@preact/compat",
+    "react-dom": "npm:@preact/compat"
   },
   "devDependencies": {
     "@types/express": "^4.17.19",

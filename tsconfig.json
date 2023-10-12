@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "jsx": "react",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
     /* Projects */
