@@ -1,98 +1,172 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="Cache-control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Cache-control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
     <title>Smile Identity</title>
 
-    <link rel="stylesheet" href="/style.css">
-    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"
+      rel="stylesheet"
+    />
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <div class="smile-container">
-        <img src="logo.svg" alt="Smile Identity Logo" class="smile-logo"/>
-        <h2>Next, we'll take a quick selfie</h2>
-        <p>We'll use it to verify your Identity. Please follow the instructions below.</p>
-    
-        <div class="smile-instructions">
-            <div class="instruction">
-                <img src="good_light_icon.svg" alt="Good Light"/>
-                <p>Make sure you are in a well-lit environment where your face is clear and visible.</p>
-            </div>
-            <div class="instruction">
-                <img src="clear_image_icon.svg" alt="Clear Image"/>
-                <p>Hold your phone steady so the selfie is clear and sharp. Don’t take blurry images.</p>
-            </div>
-            <div class="instruction">
-                <img src="remove_obstructions_icon.svg" alt="Remove Obstructions"/>
-                <p>Remove anything that covers your face, such glasses, masks, hats, and scarves.</p>
-            </div>
-        </div>
-        <button class="smile-button">I'm Ready</button>
-        <div class="powered-by">
-            <p>Powered by <span>SmileID</span></p>
-        </div>
-    </div>
-    
+      <img src="/icons/logo.svg" alt="Smile Identity Logo" class="smile-logo" />
+      <h2>Next, we'll take a quick selfie</h2>
+      <p>
+        We'll use it to verify your Identity. Please follow the instructions
+        below.
+      </p>
 
-    <section id="webcam-section" class="centered-section">
+      <div class="smile-instructions">
+        <div class="instruction">
+          <img src="icons/good_light_icon.svg" alt="Good Light" />
+          <p>
+            Make sure you are in a well-lit environment where your face is clear
+            and visible.
+          </p>
+        </div>
+        <div class="instruction">
+          <img src="icons/clear_image_icon.svg" alt="Clear Image" />
+          <p>
+            Hold your phone steady so the selfie is clear and sharp. Don’t take
+            blurry images.
+          </p>
+        </div>
+        <div class="instruction">
+          <img
+            src="icons/remove_obstructions_icon.svg"
+            alt="Remove Obstructions"
+          />
+          <p>
+            Remove anything that covers your face, such glasses, masks, hats,
+            and scarves.
+          </p>
+        </div>
+      </div>
+      <button class="smile-button">I'm Ready</button>
+      <div class="powered-by">
+        <p>
+          Powered by <span><a href="https://usesmileid.com/">SmileID</a></span>
+        </p>
+      </div>
+    </div>
+
+    <div class="camera-container">
+      <section id="webcam-section" class="centered-section">
         <h2>Webcam Verification</h2>
-        <p>Hold your face in front of your webcam for real-time face landmark detection.<br>Click <b>enable webcam</b> below and grant access.</p>
+        <p>
+          Hold your face in front of your webcam for real-time face landmark
+          detection.<br />Ensure you grant access when prompted.
+        </p>
 
         <div id="liveView" class="videoView">
-            <button id="webcamButton" class="mdc-button mdc-button--raised">
-                <span class="mdc-button__ripple"></span>
-                <span class="mdc-button__label">ENABLE WEBCAM</span>
-            </button>
-            <div style="position: relative;">
-                <video id="webcam" style="display: block; margin: 0 auto;" autoplay playsinline></video>
-                <canvas class="output_canvas" id="output_canvas" style="position: absolute; left: 0px; top: 0px;"></canvas>
-            </div>
+          <button id="webcamButton" class="mdc-button mdc-button--raised">
+            <span class="mdc-button__ripple"></span>
+            <span class="mdc-button__label">I'm Ready</span>
+          </button>
+          <div class="camera-frame">
+            <video id="webcam" autoplay playsinline></video>
+            <canvas class="output_canvas" id="output_canvas"></canvas>
+            <img
+              src="icons/face_outline_icon.svg"
+              alt="Face Outline"
+              class="face-outline"
+            />
+          </div>
         </div>
 
         <div class="blend-shapes">
-            <ul class="blend-shapes-list" id="video-blend-shapes"></ul>
+          <ul class="blend-shapes-list" id="video-blend-shapes"></ul>
         </div>
+      </section>
+
+      <p class="position-text">Position face within the outline</p>
+
+      <div class="agent-mode">
+        <label for="agentSwitch">Agent Mode</label>
+        <input type="checkbox" id="agentSwitch" />
+      </div>
+    </div>
+
+    <section id="webcam-section" class="centered-section">
+      <h2>Webcam Verification</h2>
+      <p>
+        Hold your face in front of your webcam for real-time face landmark
+        detection.<br />Click <b>enable webcam</b> below and grant access.
+      </p>
+
+      <div id="liveView" class="videoView">
+        <button id="webcamButton2" class="mdc-button mdc-button--raised">
+          <span class="mdc-button__ripple"></span>
+          <span class="mdc-button__label">ENABLE WEBCAM</span>
+        </button>
+        <div style="position: relative">
+          <video
+            id="webcam"
+            style="display: block; margin: 0 auto"
+            autoplay
+            playsinline
+          ></video>
+          <canvas
+            class="output_canvas"
+            id="output_canvas"
+            style="position: absolute; left: 0px; top: 0px"
+          ></canvas>
+        </div>
+      </div>
+
+      <div class="blend-shapes">
+        <ul class="blend-shapes-list" id="video-blend-shapes"></ul>
+      </div>
     </section>
 
     <script src="/script.js"></script>
 
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
-        }
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f5f5f5;
+      }
 
-        header {
-            background-color: #007BFF;  /* Primary brand color */
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            border-bottom: 2px solid #004B8D; /* Darker shade for contrast */
-        }
+      header {
+        background-color: #007bff; /* Primary brand color */
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+        border-bottom: 2px solid #004b8d; /* Darker shade for contrast */
+      }
 
-        .centered-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 70vh;
-            padding: 20px;
-        }
+      .centered-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 70vh;
+        padding: 20px;
+      }
 
-        .videoView {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+      .videoView {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
 
-        .mdc-button {
-            background-color: #007BFF;
-            color: white;
-        }
+      .mdc-button {
+        background-color: #007bff;
+        color: white;
+      }
     </style>
-</body>
+  </body>
 </html>

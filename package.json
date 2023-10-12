@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
-    "start": "ts-node src/server/server.ts"
+    "start": "nodemon --watch src/server -e ts,tsx --exec ts-node src/server/server.ts",
+    "dev": "webpack-dev-server --mode development",
+    "lint": "npx prettier --write ."
   },
   "author": "",
   "license": "ISC",
@@ -19,7 +21,9 @@
   "devDependencies": {
     "@types/express": "^4.17.19",
     "@types/node": "^20.8.4",
+    "nodemon": "^3.0.1",
     "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   }
 }
