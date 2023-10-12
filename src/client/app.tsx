@@ -5,14 +5,7 @@ const { FaceLandmarker, FilesetResolver, DrawingUtils } = vision;
 import Instructions from "./instructions";
 import CameraApp from "./camera";
 import { hasGetUserMedia } from "./utils";
-
-const HelpMessage = ({ message }) => {
-  return (
-    <p className="position-text" id="helpMessage">
-      {message}
-    </p>
-  );
-};
+import HelpMessage from "./help";
 
 const App = () => {
   const [capture, startCapture] = useState<boolean>(false);
