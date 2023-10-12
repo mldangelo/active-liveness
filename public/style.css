@@ -103,6 +103,22 @@ body {
   padding: 0;
 }
 
+.camera-frame {
+  position: relative;
+  width: 640px;
+  height: 480px;  
+}
+
+.camera-frame video, 
+.camera-frame canvas, 
+.camera-frame img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .camera-container {
   max-width: 500px; /* Adjust to your preference */
   margin: 0 auto;
