@@ -29,10 +29,17 @@ header {
 }
 
 .videoView video {
-  transform: scale(1.25); /* Magnify the video by 25% */
-  position: absolute;
+  -moz-transform: scaleX(-1) scale(1.25);
+  -ms-transform: scaleX(-1) scale(1.25);
+  -o-transform: scaleX(-1) scale(1.25);
+  -webkit-transform: scaleX(-1) scale(1.25);
+  transform: scaleX(-1) scale(1.25); /* Mirror and Magnify */
+
+  height: auto;
   left: -20%; /* Move the video to the left by 20% of its width */
+  position: absolute;
   top: -20%; /* Move the video to the top by 20% of its height */
+  width: 100%;
 }
 
 .mdc-button {
