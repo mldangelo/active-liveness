@@ -72,7 +72,7 @@ async function handleClick(event) {
     runningMode = "IMAGE";
     await faceLandmarker.setOptions({ runningMode });
   }
-  // Remove all landmarks drawed before
+  // Remove all landmarks drawn before
   const allCanvas = event.target.parentNode.getElementsByClassName("canvas");
   for (var i = allCanvas.length - 1; i >= 0; i--) {
     const n = allCanvas[i];

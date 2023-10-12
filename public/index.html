@@ -1,58 +1,98 @@
-<!-- Copyright 2023 The MediaPipe Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-     http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License. -->
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="Cache-control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-  <title>Face Landmarker</title>
+    <meta charset="utf-8">
+    <meta http-equiv="Cache-control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>Smile Identity</title>
 
-  <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 </head>
 <body>
-  <h1>Face landmark detection using the MediaPipe FaceLandmarker task</h1>
-
-  <section id="demos" class="invisible">
-    <h2>Demo: Detecting Images</h2>
-    <p><b>Click on an image below</b> to see the key landmarks of the face.</p>
-
-    <div class="detectOnClick">
-      <img src="https://storage.googleapis.com/mediapipe-assets/portrait.jpg" width="100%" crossorigin="anonymous" title="Click to get detection!" />
+    <div class="smile-container">
+        <img src="logo.svg" alt="Smile Identity Logo" class="smile-logo"/>
+        <h2>Next, we'll take a quick selfie</h2>
+        <p>We'll use it to verify your Identity. Please follow the instructions below.</p>
+    
+        <div class="smile-instructions">
+            <div class="instruction">
+                <img src="good_light_icon.svg" alt="Good Light"/>
+                <p>Make sure you are in a well-lit environment where your face is clear and visible.</p>
+            </div>
+            <div class="instruction">
+                <img src="clear_image_icon.svg" alt="Clear Image"/>
+                <p>Hold your phone steady so the selfie is clear and sharp. Don’t take blurry images.</p>
+            </div>
+            <div class="instruction">
+                <img src="remove_obstructions_icon.svg" alt="Remove Obstructions"/>
+                <p>Remove anything that covers your face, such glasses, masks, hats, and scarves.</p>
+            </div>
+        </div>
+        <button class="smile-button">I'm Ready</button>
+        <div class="powered-by">
+            <p>Powered by <span>SmileID</span></p>
+        </div>
     </div>
-    <div class="blend-shapes">
-      <ul class="blend-shapes-list" id="image-blend-shapes"></ul>
-    </div>
+    
 
-    <h2>Demo: Webcam continuous face landmarks detection</h2>
-    <p>Hold your face in front of your webcam to get real-time face landmarker detection.</br>Click <b>enable webcam</b> below and grant access to the webcam if prompted.</p>
+    <section id="webcam-section" class="centered-section">
+        <h2>Webcam Verification</h2>
+        <p>Hold your face in front of your webcam for real-time face landmark detection.<br>Click <b>enable webcam</b> below and grant access.</p>
 
-    <div id="liveView" class="videoView">
-      <button id="webcamButton" class="mdc-button mdc-button--raised">
-        <span class="mdc-button__ripple"></span>
-        <span class="mdc-button__label">ENABLE WEBCAM</span>
-      </button>
-      <div style="position: relative;">
-        <video id="webcam" style="position: abso" autoplay playsinline></video>
-        <canvas class="output_canvas" id="output_canvas" style="position: absolute; left: 0px; top: 0px;"></canvas>
-      </div>
-    </div>
-    <div class="blend-shapes">
-      <ul class="blend-shapes-list" id="video-blend-shapes"></ul>
-    </div>
-  </section>
-  <script src="/script.js"></script>
+        <div id="liveView" class="videoView">
+            <button id="webcamButton" class="mdc-button mdc-button--raised">
+                <span class="mdc-button__ripple"></span>
+                <span class="mdc-button__label">ENABLE WEBCAM</span>
+            </button>
+            <div style="position: relative;">
+                <video id="webcam" style="display: block; margin: 0 auto;" autoplay playsinline></video>
+                <canvas class="output_canvas" id="output_canvas" style="position: absolute; left: 0px; top: 0px;"></canvas>
+            </div>
+        </div>
+
+        <div class="blend-shapes">
+            <ul class="blend-shapes-list" id="video-blend-shapes"></ul>
+        </div>
+    </section>
+
+    <script src="/script.js"></script>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color: #007BFF;  /* Primary brand color */
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 2px solid #004B8D; /* Darker shade for contrast */
+        }
+
+        .centered-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+            padding: 20px;
+        }
+
+        .videoView {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .mdc-button {
+            background-color: #007BFF;
+            color: white;
+        }
+    </style>
 </body>
 </html>
